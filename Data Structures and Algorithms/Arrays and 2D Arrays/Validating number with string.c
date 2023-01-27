@@ -40,12 +40,12 @@ void solve(char *number, char *digits)
     {
         if(not search(*(number + i), digits) or virg > 1 or positive > 1 or negative > 1) 
         {
-            printf("Isso nem eh numero.\n"); return;
+            printf("Tipo de numero: Isso nem eh numero.\n"); return;
         }
     }
     
     printf("Tipo de numero: %s", (virg and negative) ? "Real negativo\n" 
-                            : (virg and not negative) ? "Real positivo\n" 
+                            : (virg and !negative) ? "Real positivo\n" 
                             : (not virg and negative) ? "Inteiro\n" : "Natural\n");
 
 }
