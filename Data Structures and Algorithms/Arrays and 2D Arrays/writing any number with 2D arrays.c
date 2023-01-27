@@ -86,5 +86,3 @@ void PrintNumberPartOne(int n, int i, int j)
     printf("%s ", Digits[n-1]);
   }
 }
-
-
