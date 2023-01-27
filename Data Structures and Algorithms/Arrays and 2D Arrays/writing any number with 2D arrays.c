@@ -9,7 +9,7 @@ int main()
     int ano;
     printf("Insert number: ");
     scanf("%d",  &ano);
-    PrintNumberPartOne(ano, 0, 0);
+    PrintNumberPartOne(fabs(ano), 0, 0);
 
 	return 0;
 }
