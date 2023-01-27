@@ -30,17 +30,9 @@ int check_signal(char index, char *array)
 
 }
 
-bool check_virgula(char index, char *array)
-{
-    for (int i = 0; i < 26; i++)
-        if (index == *(array + i))  return true;
-    return false;
-
-}
-
 void solve(char *number, char *digits)
 {
-    bool virg = check_virgula(',', number);
+    int virg = check_signal(',', number);
     int positive = check_signal('+', number);
     int negative = check_signal('-', number);
     
@@ -48,14 +40,14 @@ void solve(char *number, char *digits)
     {
         if(not search(*(number + i), digits) or virg > 1 or positive > 1 or negative > 1) 
         {
-            printf("Numero invalido\n"); return;
+            printf("Isso nem eh numero.\n"); return;
         }
     }
+    
+    printf("Tipo de numero: %s", (virg and negative) ? "Real negativo\n" 
+                            : (virg and not negative) ? "Real positivo\n" 
+                            : (not virg and negative) ? "Inteiro\n" : "Natural\n");
 
-    
-    printf("Tipo de numero: %s", (virg and negative) ? "Real negativo\n" : (virg and !negative) ? "Real positivo\n" 
-                                                            : (not virg and negative) ? "Inteiro\n" : "Natural\n");
-    
 }
 
 int main()
