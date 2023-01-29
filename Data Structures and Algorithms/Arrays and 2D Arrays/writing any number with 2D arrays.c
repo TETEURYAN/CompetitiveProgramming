@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
+#include <string.h>
 #include <stdlib.h>
 #include <iso646.h>
 
-char PrefixCentena[11][20] = {"", "c", "duz", "trez", "quatroc", "quinh", "seisc", "setec", "oitoc", "novec"};
+char PrefixCentena[11][20] = {"", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"};
 char PrefixOnly10[10][20] = {"dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"};
 char Dezenas[10][20] = {"vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"};
 char Digits[10][20] = {"um ", "dois", "tres", "quatro", "cinco", "seis", "sete", "oito", "nove"};
@@ -34,16 +35,16 @@ int convert(char *string, int number ,  int tam, int i){
 
 bool search(char index, char *array)
 {
-    for (int i = 0; i < 26; i++)
-        if (index == *(array+ i)) return true;
+    for (int i = 0; i < strlen(array); i++)
+        if (index == array[i]) return true;
     return false;
 }
 
 bool check_number(char *array)
 {
-    for (int i = 0; i < 26; i++)
-        if (search(*(array+i), digitos)) return true;
-    return false;
+    for (int i = 0; i < strlen(array); i++)
+        if (not search(*(array+i), digitos)) return false;
+    return true;
 }
 
 void PrintNumberPartTwo(int m)
@@ -87,7 +88,7 @@ void PrintNumberPartOne(int n, int i, int j)
       else
       {
           if(n == 900 and j > 0) printf("e ");
-          printf("%sento%s", PrefixCentena[n / 100], n <= 199 ? "" : "s ");
+          printf("%s%s", PrefixCentena[n / 100], n <= 199 ? "" : "s ");
           PrintNumberPartOne(n % 100, 1, ++j);
       }
     }
