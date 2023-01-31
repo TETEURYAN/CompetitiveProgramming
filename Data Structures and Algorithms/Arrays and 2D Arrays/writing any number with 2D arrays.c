@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <iso646.h>
 
+
 char PrefixCentena[11][20] = {"", "cento ", "duzento", "trezento", "quatrocento", "quinhento", "seiscento", "setecento", "oitocento", "novecento"};
 char PrefixOnly10[10][20] = {"dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"};
 char Dezenas[10][20] = {"vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"};
