@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <iso646.h>
 
-char PrefixCentena[11][20] = {"", "cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"};
+char PrefixCentena[11][20] = {"", "cento ", "duzento", "trezento", "quatrocento", "quinhento", "seiscento", "setecento", "oitocento", "novecento"};
 char PrefixOnly10[10][20] = {"dez", "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"};
 char Dezenas[10][20] = {"vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"};
 char Digits[10][20] = {"um ", "dois", "tres", "quatro", "cinco", "seis", "sete", "oito", "nove"};
@@ -22,15 +22,14 @@ void input_string(char *nickname, int i, int tam)
     }   
 }
 
-int convert(char *string, int number ,  int tam, int i){
+int convert(char *string, long long int number ,  int tam, int i){
 
 	if(*(string+i) =='\0') return number ;
  	else 
 	{
-		number += (((int)*(string+i)) - '0') * pow(10,tam-1); 
+		number += (((long long int)*(string+i)) - '0') * pow(10,tam-1); 
 		return convert(string, number ,  --tam,  ++i  );
 	}
-
 }
 
 bool search(char index, char *array)
@@ -47,7 +46,7 @@ bool check_number(char *array)
     return true;
 }
 
-void PrintNumberPartTwo(int m)
+void PrintNumberPartTwo(long long int m)
 {
     if(m < 10) printf("%s", Digits[m-1]);
     if(m >= 10 and m < 20) printf("%s", PrefixOnly10[ m%10]);
@@ -55,15 +54,9 @@ void PrintNumberPartTwo(int m)
     if(m > 20 and m%10 not_eq 0) printf("%s e %s", Dezenas[m/10 - 2], Digits[(m%10) - 1]);
 }
 
-void PrintNumberPartOne(int n, int i, int j)
+void PrintNumberPartOne(long long int n, int i, int j)
 {
-    if(n >= pow(10,9))
-    {
-      PrintNumberPartOne(n / 1000000000, 0, 0);
-      printf("%s", (n / 1000000000) == 1 ? "bilhao " : (n >= 2000000000) ?  " bilhoes " : "bilhoes");
-      PrintNumberPartOne(n % 1000000000, 0, 1);
-    }
-    else if(n >= pow(10,6))
+    if(n >= pow(10,6))
     {
       PrintNumberPartOne(n / 1000000, 0, 0);
       printf("%s", (n / 1000000) == 1 ? "milhao " : " milhoes ");
@@ -72,7 +65,7 @@ void PrintNumberPartOne(int n, int i, int j)
     else if(n >= 10000)
     {
       PrintNumberPartOne(n / 1000, 0, 0);
-      printf("%s", n < 20000 ? "mil " : " mil ");
+      printf("%s", n < 20000 ? " mil " : " mil ");
       PrintNumberPartOne(n % 1000, 1, ++j);
     }
     else if (n >= 1000)
@@ -115,20 +108,82 @@ void PrintNumberPartOne(int n, int i, int j)
     }
 }
 
-void solve(char *ano) 
+void solve(char *ano, int tam, int dif) 
 {
-    int intereger = convert(ano, 0, strlen(ano), 0);
-    PrintNumberPartOne(intereger, 0, 0);
+    long long int intereger; 
+    long long int restante;
+    
+    if(tam <= 9) 
+    {
+        intereger = convert(ano, 0, strlen(ano), 0);
+        PrintNumberPartOne(intereger, 0, 0);
+    }
+    else if(tam <=12)
+    {
+        intereger = convert(ano, 0, tam-9, dif);
+        PrintNumberPartOne(intereger, 0, 0);
+        printf("%s", (intereger == 1) ? " bilhao " : " bilhoes ");
+        
+        int def = abs((tam) - 9);
+        //printf("\n%d\n", tam-def);
+        restante = convert(ano, 0, tam-def, def + dif);
+        PrintNumberPartOne(restante, 0, 0);
+        
+    }
+    
+    else if(tam <=15)
+    {
+        intereger = convert(ano, 0, tam-12, dif);
+        PrintNumberPartOne(intereger, 0, 0);
+        printf("%s", (intereger == 1) ? "trilhao " : " trilhoes ");
+        
+        int def = abs((tam) - 12);
+        //printf("\n%d\n", tam-def);
+        solve(ano, tam-def, def+dif);
+    }
+    
+    else if(tam <=18)
+    {
+        intereger = convert(ano, 0, tam-15, dif);
+        PrintNumberPartOne(intereger, 0, 0);
+        printf("%s", (intereger == 1) ? "quatrilhao " : " quatrilhoes ");
+        
+        int def = abs((tam) - 15);
+        //printf("\n%d %d\n", def+dif, tam);
+        solve(ano, tam-def, def+dif);
+    }
+    
+    else if(tam <=21)
+    {
+        intereger = convert(ano, 0, tam-18, dif);
+        PrintNumberPartOne(intereger, 0, 0);
+        printf("%s", (intereger == 1) ? "quintilhao " : " quintilhoes ");
+        
+        int def = abs(tam - 18);
+        //printf("\n%d %d\n", def, tam);
+        solve(ano, tam-def, def+dif);
+    }
+    
+    else if(tam <=24)
+    {
+        intereger = convert(ano, 0, tam-21, dif);
+        PrintNumberPartOne(intereger, 0, 0);
+        printf("%s", (intereger == 1) ? "sextilhão " : " sextilhoes ");
+        
+        int def = abs(tam - 21);
+        //printf("\n%d %d\n", def, tam);
+        solve(ano, tam-def, def+dif);
+    }
 }
 
 int main() 
 {
-    int tam = 15; char ano[tam];
+    int tam = 25; char ano[tam];
     printf("Insert number: ");
     input_string(ano, 0, tam);
 
     if(not check_number(ano)) printf("Numero invalido");
-    else solve(ano);
+    else solve(ano, strlen(ano), 0);
     
 	return 0;
 }
