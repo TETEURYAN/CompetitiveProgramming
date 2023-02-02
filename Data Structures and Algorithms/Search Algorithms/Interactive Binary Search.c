@@ -37,6 +37,7 @@ void swap (int *x, int *y)
 	*y = aux;
 }
 
+
 void bubble_sort (int i, int j, int array[], int n)
 {
 	int aux;
