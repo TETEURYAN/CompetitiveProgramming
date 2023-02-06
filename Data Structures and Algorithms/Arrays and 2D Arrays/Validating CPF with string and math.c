@@ -82,6 +82,5 @@ void main()
 
     printf("Digite seu CPF: ");
     input_string(cpf, 0, 15);
-
     solve(cpf);
 }
