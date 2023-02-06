@@ -15,6 +15,7 @@ bool search(int index, int *array, int tam_array, int i)
     return false;
 }
 
+
 void swap (int *x, int *y)
 {
 	int aux = *x;
