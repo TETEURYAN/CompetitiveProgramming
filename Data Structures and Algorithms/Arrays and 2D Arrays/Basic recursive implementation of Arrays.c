@@ -11,12 +11,12 @@ void InsertArray( int *array, int tam, int i)//Function to insert elements at Ar
     }
 }
 
-void InsertArray( int *array, int tam, int i)//Function to print elements of Array
+void PrintArray( int *array, int tam, int i)//Function to print elements of Array
 {
     if( i < tam)
     {
         scanf("Na posicao %d esta o elemento %d.\n", i, &array[i]);
-        InsertArray(array, tam, ++i);
+        PrintArray(array, tam, ++i);
     }
 }
 
