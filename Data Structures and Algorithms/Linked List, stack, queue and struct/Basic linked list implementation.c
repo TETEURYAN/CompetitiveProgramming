@@ -16,12 +16,12 @@ typedef struct
     struct Node *proximo;
 }Node;
 
-Node * getnode()
+Node * getnode()//Function to alcoate memory
 {
     return malloc(sizeof(Node));
 }
 
-void InsertInit(Node **list, int num)
+void InsertInit(Node **list, int num)//Function to insert element at the start of the list
 {
     Node *item = getnode();
 
@@ -31,7 +31,7 @@ void InsertInit(Node **list, int num)
 
 }
 
-void InsertAny(Node **lista, int num, int before)
+void InsertAny(Node **lista, int num, int before)//Function to insert element at the anyway of the list
 {
     Node *aux;
     Node *item = getnode();
@@ -51,7 +51,7 @@ void InsertAny(Node **lista, int num, int before)
     }
 }
 
-void InsertEnd(Node **list, int num)
+void InsertEnd(Node **list, int num)//Function to insert element at the end of list
 {
     Node *aux;
     Node *item = getnode();
@@ -69,7 +69,7 @@ void InsertEnd(Node **list, int num)
 
 }
 
-void display(Node * no)
+void display(Node * no) //Function to print list
 {
     printf("Lista: ");
 	while(no!=NULL)
