@@ -1,2 +1,4 @@
-# CompetitiveProgramming
-Repository dedicated to Competitive Programming, Data Structure and Algorithms.
+# Arrays and 2D Arrays
+
+## What is a Array?
+* Array is  
