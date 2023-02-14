@@ -1,5 +1,5 @@
 # Arrays and 2D Arrays
-
+In this folder you will find a brief summary about the study of Arrays in the C language.
 ## Array
 * Array is a static list in which data types can be stored in sequence.
 * An array can be understood as a pointer to the first item in the list, that is, the memory address of the first item.
