@@ -40,7 +40,29 @@ void bubble_sort (int i, int j, int array[], int n)
 	}
 }
 ```
-# Merge Sort
+
+## Interactive Bubble Sort
+```C
+
+void bubble_sort (int array[], int n) {
+    int k, j, aux;
+
+    for (k = 1; k < n; k++) 
+    {
+        for (j = 0; j < n - 1; j++)
+	{
+            if (array[j] > array[j + 1]) {
+                aux          = array[j];
+                array[j]     = array[j + 1];
+                array[j + 1] = aux;
+            }
+        }
+    }
+}
+
+```
+
+## Merge Sort
 Merge Sort is an efficient, recursive sorting algorithm. Its premise is to break the array into unitary pieces in order to compare and exchange their positions. Due to its speed, it presents O(n log n) complexity.
 
 ```c
