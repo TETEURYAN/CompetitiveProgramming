@@ -42,6 +42,7 @@ void bubble_sort (int i, int j, int array[], int n)
 ```
 
 ## Interactive Bubble Sort
+The interactive bubble sort is composed of the same logic as the recursive, however, using loops of repetition to minimally increase the sorting result. It is still slow compared to other more advanced sorting algorithms.
 ```C
 
 void bubble_sort (int array[], int n) {
