@@ -10,7 +10,7 @@
 #endif
 
 //Code
-typedef struct 
+typedef struct Node
 {
     int info;
     struct Node *proximo;
@@ -69,6 +69,27 @@ void InsertEnd(Node **list, int num)//Function to insert element at the end of l
 
 }
 
+int Min(Node * no) //Function to return the first item
+{
+    return no ? no->info : -1;
+}
+
+int Max(Node * no)
+{
+    while(no->proximo)
+        no = no->proximo;
+    return no->info;    
+}
+
+int length(Node * no) //Function to count the list
+{
+    if(no)
+    {
+        return 1 + length(no->proximo);
+    }
+    return 0;
+}
+
 void display(Node * no) //Function to print list
 {
     printf("Lista: ");
@@ -87,7 +108,7 @@ void input()
 
     do{
         system("clear || cls");
-        printf("\n\t(0) - Sair\n\t(1) - InserirI\n\t(2) - inserirF\n\t(3) - InserirM\n\t(4) - Imprimir\n");
+        printf("\n\t(0) - Sair\n\t(1) - InserirI\n\t(2) - inserirF\n\t(3) - InserirM\n\t(4) - Mostrar tamanho\n\t(5) - Primeiro item\n\t(6) - Ultimo item\n\t(7) - Imprimir\n");
         scanf("%d", &opcao);
 
         switch(opcao){
@@ -107,6 +128,15 @@ void input()
             InsertAny(&lista, valor, anterior);
             break;
         case 4:
+            printf("Tamanho da lista: %d\n", length(lista));
+            break;
+        case 5:
+            printf("Primeiro item da lista: %d\n", Min(lista));
+            break;   
+        case 6:
+            printf("Ultimo item da lista: %d\n", Min(lista) == -1 ? Min(lista) : Max(lista));
+            break;        
+        case 7:
             display(lista);
             break;
         default:
