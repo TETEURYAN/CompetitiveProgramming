@@ -69,9 +69,10 @@ void InsertAny(Node **list, int num, int before)//Function to insert element at 
 void lastItem(Node **list, int num)// search the last number
 {
     
-    if((*list)->proximo != NULL;
+    if((*list)->proximo != NULL)
+    {
         lastItem(&(*list)->proximo, num);
-    
+    }
     else
     {
         Node * aux;
@@ -114,6 +115,20 @@ void display(Node * no) //Function to print list
 	else printf("\n");
 }
 
+int Min(Node * no) //Function to return the first item
+{
+    return no ? no->info : -1;
+}
+
+int Max(Node * no)// Function to return a intereger withm the last item
+{
+    if(no and Min(no) not_eq -1) return Max(no->proximo);
+    else 
+    {
+        return Min(no) not_eq -1 ? no->info : -1;
+    }    
+}
+
 int length(Node * no) //Function to count the list
 {
 	if(no)
@@ -128,7 +143,7 @@ void input(Node *lista)// Recursive function to made a loop in menu
     int opcao, valor, anterior;
 
     system("clear || cls");
-    printf("\n\t(0) - Sair\n\t(1) - InserirI\n\t(2) - inserirF\n\t(3) - InserirM\n\t(4) - Mostrar tamanho\n\t(5) - Imprimir\n");
+    printf("\n\t(0) - Sair\n\t(1) - InserirI\n\t(2) - inserirF\n\t(3) - InserirM\n\t(4) - Mostrar tamanho\n\t(5) - Primeiro item\n\t(6) - Ultimo item\n\t(7) - Imprimir\n");
     scanf("%d", &opcao);
 
     switch(opcao)
@@ -150,12 +165,18 @@ void input(Node *lista)// Recursive function to made a loop in menu
             scanf("%d %d", &valor, &anterior);
             InsertAny(&lista, valor, anterior);
             break;
-        case 5:
-            printf("Lista: ");
-            display(lista);
-            break;
         case 4:
             printf("Tamanhho da lista: %d\n", length(lista));
+            break;
+        case 5:
+            printf("Primeiro item da lista: %d\n", Min(lista));
+            break;
+        case 6:
+            printf("Ultimo item da lista: %d\n", Max(lista));
+            break;    
+        case 7:
+            printf("Lista: ");
+            display(lista);
             break;
         default:
             if(opcao != 0) printf("Opcao invalida!\n");
