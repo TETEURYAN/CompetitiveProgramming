@@ -115,20 +115,6 @@ void display(Node * no) //Function to print list
 	else printf("\n");
 }
 
-int Min(Node * no) //Function to return the first item
-{
-    return no ? no->info : -1;
-}
-
-int Max(Node * no)// Function to return a intereger withm the last item
-{
-    if(no and Min(no) not_eq -1) return Max(no->proximo);
-    else 
-    {
-        return Min(no) not_eq -1 ? no->info : -1;
-    }    
-}
-
 int length(Node * no) //Function to count the list
 {
 	if(no)
@@ -136,6 +122,17 @@ int length(Node * no) //Function to count the list
         return 1 + length(no->proximo);
     }
     return 0;
+}
+
+int Min(Node * no) //Function to return the first item
+{
+    return no ? no->info : -1;
+}
+
+int Max(Node * no)// Function to return a intereger withm the last item
+{
+   if(no->proximo) return Max(no->proximo);
+   else return no->info;
 }
 
 void input(Node *lista)// Recursive function to made a loop in menu
@@ -172,7 +169,7 @@ void input(Node *lista)// Recursive function to made a loop in menu
             printf("Primeiro item da lista: %d\n", Min(lista));
             break;
         case 6:
-            printf("Ultimo item da lista: %d\n", Max(lista));
+            printf("Ultimo item da lista: %d\n", Min(lista) == -1 ? -1 : Max(lista));
             break;    
         case 7:
             printf("Lista: ");
