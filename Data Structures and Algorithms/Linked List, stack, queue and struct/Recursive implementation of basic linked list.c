@@ -69,10 +69,9 @@ void InsertAny(Node **list, int num, int before)//Function to insert element at 
 void lastItem(Node **list, int num)// search the last number
 {
     
-    if((*list)->proximo != NULL)
-    {
+    if((*list)->proximo != NULL;
         lastItem(&(*list)->proximo, num);
-    }
+    
     else
     {
         Node * aux;
