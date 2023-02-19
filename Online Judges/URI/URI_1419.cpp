@@ -3,24 +3,28 @@
 
 //1419 - Bakugan
 
-int vetor (int *v, int r, int i) {
+int vetor (int *v, int r, int i) 
+{
     scanf("%d", &v[i]);
     if (i == r - 1) return v[i];
     return v[i] + vetor(v, r, i + 1);    
 }
 
-void bonus (int *vm, int *vl, int *m, int *l, int r, int i) {
+void bonus (int *vm, int *vl, int *m, int *l, int r, int i) 
+{
     bool validM, validL;
     validM = validL = false;
 
     if (i == r - 1) return;
 
-    if (vm[i - 1] == vm[i] && vm[i] == vm[i + 1]) {
+    if (vm[i - 1] == vm[i] && vm[i] == vm[i + 1]) 
+    {
         *m += 30;
         validM = true;
     }
 
-    if (vl[i - 1] == vl[i] && vl[i] == vl[i + 1]) {
+    if (vl[i - 1] == vl[i] && vl[i] == vl[i + 1]) 
+    {
         *l += 30;
         validL = true;
     }
