@@ -1,7 +1,7 @@
-##Linked List
+## Linked List
 
-##Stack
+## Stack
 
-##Queue
+## Queue
 
-##Struct
+## Struct
