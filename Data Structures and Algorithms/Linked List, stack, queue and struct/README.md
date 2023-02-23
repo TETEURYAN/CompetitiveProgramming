@@ -1,7 +1,29 @@
+## Struct
+Struct is a flexible variable that can have different types of data inside it. In a sense, declaring a struct is declaring a new data type.
+For example, if you want a data type that provides a coordinate, you will need a struct with two variables inside. Or if you want a person's information, you would need a struct with name, date of birth, age, etc.Examples below:
+
+### Cordinate struct
+```c
+ struct cordinate
+{
+    int x;
+    int y;
+};
+```
+
+### Person struct
+
+```c
+struct Person
+{
+    char name{50};
+    int age;
+    int ID;
+};
+```
+
 ## Linked List
 
 ## Stack
 
 ## Queue
-
-## Struct
