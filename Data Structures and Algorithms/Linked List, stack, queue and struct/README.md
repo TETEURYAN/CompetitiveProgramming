@@ -24,6 +24,14 @@ struct Person
 
 # Linked List
  Linked list is a list that uses dynamic assignment to store values.
+ ```c
+ struct Node
+{
+    int info;
+    int Node * next;
+};
+```
+ 
 # Stack
 
 # Queue
