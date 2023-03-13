@@ -33,5 +33,4 @@ struct Person
 ```
  
 # Stack
- Yep
 # Queue
