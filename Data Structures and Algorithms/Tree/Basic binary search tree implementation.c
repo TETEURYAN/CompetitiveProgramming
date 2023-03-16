@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iso646.h>
+#include <string.h>
 
 typedef struct tree{
     int info;
@@ -9,36 +10,71 @@ typedef struct tree{
 
 void geTree(tree **list, int num)
 {
-        tree *src = malloc(sizeof(tree));
-        src->info = num;
-        src->left = NULL;
-        src->right = NULL;
+        tree *root = malloc(sizeof(tree));
+        root->info = num;
+        root->left = NULL;
+        root->right = NULL;
         
-        *list = src;
+        *list = root;
 }
 
-void inserTree(tree **src, int num){
-    if(not *src)
-        geTree(src, num);
+void inserTree(tree **root, int num){
+    if(not *root)
+        geTree(root, num);
     
     else
     {
-        if(num < (*src)->info)
-            inserTree(&((*src)->left), num);
+        if(num < (*root)->info)
+            inserTree(&((*root)->left), num);
         else
-            inserTree(&((*src)->right), num);
+            inserTree(&((*root)->right), num);
     }
     
 }
 
-void display(tree *raiz)
+void display(tree *root)
 {
-    if(raiz)
+    if(root)
     {
-        printf("%d ", raiz->info);
-        display(raiz->left);
-        display(raiz->right);
+        printf("%d ", root->info);
+        display(root->right);
+        display(root->left);
     }
+}
+
+void printTreeBraqOne(tree* root) { 
+    // bases case 
+    if (root == NULL)
+    {
+        printf("("), printf(")");
+        return; 
+    }
+    
+    if(root != NULL)
+        printf("(%d", root->info);
+
+    printTreeBraqOne(root->right); 
+    printTreeBraqOne(root->left);
+
+    printf(")");
+} 
+
+void printTreeBraqTwo(tree *root)
+{
+    if (root == NULL)
+        return;
+    
+    printf("(%d", root->info);
+    if(root->right)
+        printTreeBraqTwo(root->right);
+    else
+        printf("(right null)");
+    
+    if(root->left)
+        printTreeBraqTwo(root->left), printf(")");
+    else
+        printf( "(left null)");
+    return;
 }
 
 void main()
@@ -50,5 +86,9 @@ void main()
     while(scanf("%d", &num) and num != 0)
         inserTree(&arvore, num);
 
-    display(arvore);
+   printTreeBraqOne(arvore);
+   printf("\n");
+   printTreeBraqTwo(arvore);
+   printf("\n");
+   display(arvore);
 }
