@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <iso646.h>
 
@@ -8,7 +7,7 @@ typedef struct tree{
     struct tree *right, *left;
 }tree;
 
-void iniTree(tree **list, int num)
+void geTree(tree **list, int num)
 {
         tree *src = malloc(sizeof(tree));
         src->info = num;
@@ -20,7 +19,7 @@ void iniTree(tree **list, int num)
 
 void inserTree(tree **src, int num){
     if(not *src)
-        iniTree(&src, num);
+        geTree(src, num);
     
     else
     {
@@ -32,8 +31,10 @@ void inserTree(tree **src, int num){
     
 }
 
-void display(tree *raiz){
-    if(raiz){
+void display(tree *raiz)
+{
+    if(raiz)
+    {
         printf("%d ", raiz->info);
         display(raiz->left);
         display(raiz->right);
@@ -45,11 +46,9 @@ void main()
     tree *arvore = NULL;
 
     int num;
-    scanf("%d", &num);
 
-    iniTree(&arvore, num);
-    iniTree(&arvore, ++num);
-    iniTree(&arvore, --num);
+    while(scanf("%d", &num) and num != 0)
+        inserTree(&arvore, num);
 
-    display(tree, num);
+    display(arvore);
 }
