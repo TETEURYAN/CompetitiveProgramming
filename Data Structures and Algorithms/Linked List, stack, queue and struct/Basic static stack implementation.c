@@ -30,6 +30,7 @@ int main(){
         printf("(2)Desimpilhar\n\n");
         printf("(3)Tamanho da pilha\n\n");
         printf("(4)Imprimir pilha\n\n");
+        printf("(5)Sair\n\n");
         printf("Opcao: ");
 
         scanf("%d",&opcao); 
