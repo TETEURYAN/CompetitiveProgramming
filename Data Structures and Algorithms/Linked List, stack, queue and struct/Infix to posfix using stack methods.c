@@ -148,4 +148,3 @@ void posFix(Pilha stack, char * expr) {
     printf("\nOrdem posfixa: ");
     printf( "%s", expr); 
 } 
-
