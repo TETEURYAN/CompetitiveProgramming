@@ -122,6 +122,9 @@ void main()
     insertKary(secondTree, 89,16);
     insertKary(secondTree, 78,16);
     insertKary(secondTree, 96,16);
+    insertKary(secondTree, 50,78);
+    insertKary(secondTree, 53,96);
+    insertKary(secondTree, 24,96);
     
     unionKary(firstTree, secondTree);
 
