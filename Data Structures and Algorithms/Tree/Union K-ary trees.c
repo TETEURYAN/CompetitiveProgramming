@@ -58,16 +58,16 @@ bool unionKary(kary * first, kary * second) //Função que realiza a união da 2
 
     else{ //Caso contrário, o programa dará prosseguimento na união das árvores N-aria
         kary * aux = search(first, second->num); //Procura a raiz da 2º árvore e averigua se está presente na 1º
-        //aux = aux->firstChild; // Pula da raiz para os filhos, já que, se a raiz já existe na 1º árore, não hveria necessidade de adicioná-la novamente.
         
-        if(aux->firstChild == NULL)
-        {
+        if(aux->firstChild == NULL)//Verifica se possui algum filho, caso não, adiciona
             aux->firstChild = second->firstChild;
-        }
         
-        while(aux->nextBro != NULL) // Laço para encontrar o filho mais a direita
-            aux = aux->nextBro;
-        aux->nextBro = second->firstChild;//Os filhos desse nó na 1ª arvore recebem os filhos da raiz da 2ª arvore 
+        else
+        {
+            while(aux->nextBro != NULL) // Laço para encontrar o filho mais a direita
+                aux = aux->nextBro;
+            aux->nextBro = second->firstChild;//Os filhos desse nó na 1ª arvore recebem os filhos da raiz da 2ª arvore 
+        }
         return true; // retorna verdadeiro, união feita com sucesso
     }    
     
