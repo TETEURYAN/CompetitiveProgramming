@@ -43,7 +43,11 @@ void bubble_sort (int i, int j, int array[], int n)
 
 ## Interactive Bubble Sort
 
+
 The interactive bubble sort is composed of the same logic as the recursive, however, using loops of repetition to minimally increase the sorting result. It is still slow compared to other more advanced sorting algorithms.
+
+<img src = "https://cdn-images-1.medium.com/fit/t/1600/480/1*GUkhhrPDfgdvvwVFo-il1g.gif" alt = "Cover" width="360" align="left" hspace="10" vspace="5" style="border: 1px solid black;">
+
 ```C
 
 void bubble_sort (int array[], int n) {
@@ -66,6 +70,8 @@ void bubble_sort (int array[], int n) {
 
 ## Merge Sort
 Merge Sort is an efficient, recursive sorting algorithm. Its premise is to break the array into unitary pieces in order to compare and exchange their positions. Due to its speed, it presents O(n log n) complexity.
+
+<img src = "https://blog.boot.dev/img/800/merge_sort_gif.gif" alt = "Cover" width="1000" align="center" hspace="10" vspace="200" style="border: 1px solid black;">
 
 ```c
 void mergeSort(int *array, int right, int left)
