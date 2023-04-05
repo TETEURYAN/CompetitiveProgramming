@@ -114,3 +114,35 @@ void sorting(int *array, int right, int mid, int left){
     free(temp);
 }
 ```
+
+## Selection Sort
+
+Selection sort is an algorithm whose idea persists in selecting and sorting from the smallest term. Thus, he will always be looking for a smaller number than another to make the exchange. As a result, it turns out to be a costly algorithm of O(n²) complexity.
+
+<img src = "https://thumbs.gfycat.com/SnappyMasculineAmericancicada-size_restricted.gif" alt = "Cover" width="1000" align="center" hspace="10" vspace="200" style="border: 1px solid black;">
+
+```C
+void swap (int *x, int *y)
+{
+	int aux = *x;
+	*x = *y;
+	*y = aux;
+}
+
+void SelectionSort(int arr[], int n){
+
+    int min;
+
+    for(int i=0; i<n-1; i++){
+        min=i;
+        for(int j=i+1 ; j<n ; j++){
+            if(arr[min] > arr[j]){
+                min=j;
+            }
+        }
+        if(i!=min){
+            swap(&arr[i], &arr[menor]);
+        }
+    }
+}
+```
