@@ -41,4 +41,5 @@ void main()
 
     for(int i = 0; i < tam; i++)
         printf("%d ", array[i]);
+	
 }
