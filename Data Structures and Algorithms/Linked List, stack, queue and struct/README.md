@@ -38,7 +38,6 @@ Stack is an abstract data structure used with the principle FILO(First in, Last 
 
 # Queue
 
-
 Queue is an abstract data structure of type FIFO(First in, first out).
 
 #Hash Table
