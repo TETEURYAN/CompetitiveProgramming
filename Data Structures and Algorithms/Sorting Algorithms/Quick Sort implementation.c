@@ -15,9 +15,8 @@ int pivot( int i, int k){
 }
 
 void QuickSort(int * arr,int init,int tam){
-    if (init>=tam) {
-        return;
-    }
+    if (init>=tam) return;
+	
     int med = arr[pivot(init, tam)];
 
     int pointer = init;
