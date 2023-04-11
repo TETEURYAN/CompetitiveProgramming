@@ -3,6 +3,8 @@
 #include<time.h>
 #include<math.h>
 
+// Algorithm version of book Data Structures and Algorithm Analysis of Clifford A. Shaffer //
+
 void swap (int *x, int *y)
 {
 	int aux = *x;
