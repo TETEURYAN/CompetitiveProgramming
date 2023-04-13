@@ -152,3 +152,22 @@ void SelectionSort(int arr[], int n){
     }
 }
 ```
+
+## Insertion Sort
+
+<img src = "https://user-images.githubusercontent.com/91018438/231626359-9f54df81-3a45-480b-9535-aadc0bfeabe2.gif" alt = "Cover" width="500" align="right" hspace="0" vspace="200" style="border: 1px solid black;">
+
+Imagine that you have a stack of phone bills from the past two years and that you wish to organize them by date. A fairly natural way to do this might be to look at the first two bills and put them in order. Then take the third bill and put it into the right order with respect to the first two, and so on. As you take each bill, you would add it to the sorted pile that you have already made. This naturally intuitive process is the inspiration for our first sorting algorithm, called Insertion Sort. Insertion Sort iterates through a list of records. Each record is inserted in turn at the correct position within a sorted list composed of those records already processed.
+
+```C
+
+void InsertionSort(int * arr,int tam){
+    for(int i = 0; i < tam; i++){
+        int j = i;
+        while((arr[j] < arr[j-1]) and (j >= 0)){
+            swap(&arr[j], &arr[j-1]);
+            j--;
+        }
+    }
+}
+```
