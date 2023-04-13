@@ -8,6 +8,7 @@ Sorting algorithms are used to put a list or vector in order.In the concept of d
 - Comb Sort
 - Quick Sort
 - Heap Sort
+- Bin Sort
 
 ## Recursive Bubble Sort
 
