@@ -4,6 +4,9 @@
 
 // Algorithm version of book Data Structures and Algorithm Analysis of Clifford A. Shaffer //
 
+/* About: Radix Sort sorts from the order of magnitude of the last digit of each number, 
+thus stopping when it reaches the order of magnitude of the largest number in array. */
+
 void radixSort(int a[], int n){
 	int i;
 	int max = 0;
