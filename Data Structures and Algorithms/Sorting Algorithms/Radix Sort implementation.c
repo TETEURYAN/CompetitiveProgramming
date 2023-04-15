@@ -4,12 +4,6 @@
 
 // Algorithm version of book Data Structures and Algorithm Analysis of Clifford A. Shaffer //
 
-void swap (int *x, int *y)
-{
-	int aux = *x;
-	*x = *y;
-	*y = aux;
-}
 
 void radixSort(int a[], int n){
 	int i;
@@ -21,23 +15,23 @@ void radixSort(int a[], int n){
 		}
 	}
 
-	int dif_dist = 1;
+	int rest = 1;
 
-	while(dif_dist <= max){
+	while(rest <= max){
 
-		int dist[10] = {0};
+		int reamainder[10] = {0};
 		int t[n];
 
 		for(i = 0; i < n; i++)
-			dist[a[i] / dif_dist % 10]++;
+			reamainder[a[i] / rest % 10]++;
 		for(i = 1; i < 10; i++)
-			dist[i] += dist[i-1];
+			reamainder[i] += reamainder[i-1];
 		for(i = n-1; i >= 0; i--)
-			t[--dist[a[i]/dif_dist%10]] = a[i];
+			t[--reamainder[a[i]/rest%10]] = a[i];
 		for(i = 0; i < n; i++)
 			a[i] = t[i];
 
-		dif_dist *= 10;
+		rest *= 10;
 	}
 
 }
