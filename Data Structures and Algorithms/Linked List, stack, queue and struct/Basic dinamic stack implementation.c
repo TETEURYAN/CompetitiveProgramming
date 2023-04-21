@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<iso646.h>
 
 #define MAX 10
 #define EMPTY -1
@@ -11,55 +12,72 @@ typedef struct node{
 }node;
 
 typedef struct stack{
-    node * info;
+    node * peek;
 }stack;
 
 node * getNode(){
     return malloc(sizeof(node));
 }
 
-stack * getStack(stack * root){
-    root = malloc(sizeof(stack));
-    startStack(root);
-
-    return root;
+bool isEmpty(stack * root){
+    return (root->peek == NULL);
 }
 
 void startStack(stack * root){
-    root->info = NULL;
+    root->peek = NULL;
 }
 
-bool pop(stack * root, int num){
+stack * getStack(stack * root){
+    root = malloc(sizeof(stack));
+    startStack(root);
+    return root;
+}
+
+void noded(node ** root, int num){
+    (*root)->value = num;
+    (*root)->next = NULL;
+}
+
+int pop(stack * root){
+    if(not isEmpty(root)){
+        node * aux = root->peek;
+        root->peek = root->peek->next;
+
+        int peeked = root->peek->value;
+        free(aux);
+
+        return peeked;
+    }
+    
+}
+
+int peekNumber(stack * root){
+    node * aux = root->peek;
+
+    while(aux->next)
+        aux = aux->next;
+    return aux->value;
+
+}
+
+void push(stack * root, int num){
     node * aux = getNode();
 
-    if(aux == false){
-        return false;
-    }else{
+    if(aux){
         aux->value = num;
-        aux->next = root->info;
-        root->info = aux;
-        return true;
+        aux->next = root->peek;
+        root->peek = aux;
     }
 }
 
-int push(stack * root){
-    node * aux = root->info;
-
-    int peek;
-
-    if(aux == false){
-        return -1;
-    }else{
-        root->info = aux->next;
-        aux->next = NULL;
-        peek = aux->value;
-        free(aux);
-        return peek;
+void pull(stack * root, int num){
+    if(not isEmpty(root)){
+        root->peek->value = num;
     }
 }
 
 void displayStack(stack * root){
-    node * aux = stack->info;
+    node * aux = root->peek;
     printf("Valores na pilha: ");
     if(aux == false){
         printf("Stack empty!\n");
@@ -75,11 +93,12 @@ void displayStack(stack * root){
 void main(){
     stack * pilha = getStack(pilha);
 
-
-    pop(pilha, 73);
-    pop(pilha, 22);
-    pop(pilha, 96);
-    pop(pilha, 40);
+    push(pilha, 73);
+    push(pilha, 22);
+    push(pilha, 96);
+    push(pilha, 40);
+    
+    pop(pilha);
 
     displayStack(pilha);
 
