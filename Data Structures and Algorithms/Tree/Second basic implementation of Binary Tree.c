@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<iso646.h>
 
 // Algorithm version of book Data Structures and Algorithm Analysis of Clifford A. Shaffer //
 
@@ -8,20 +9,20 @@ typedef struct tree{
     struct tree *right, *left;
 }tree;
 
-void getnode(tree ** root,int num){
+tree * getnode(int num){
 
-    (*root) = malloc(sizeof(tree));
+    tree * aux = malloc(sizeof(tree));
 
-    (*root)->value = num;
-    (*root)->left = NULL;
-    (*root)->right = NULL;
+    aux->value = num;
+    aux->left = NULL;
+    aux->right = NULL;
+    
+    return aux;
 }
 
 tree * putnode(tree *root, int num){
-    if(root == NULL){
-        tree *aux = NULL;
-        getnode(&aux, num);
-        return aux;
+    if(not root){
+        return getnode(num);;
     }
     else{
         if(num < root->value)
@@ -35,8 +36,8 @@ tree * putnode(tree *root, int num){
 void displayTree(tree * root){
     if(root){
         printf("%d(", root->value);
-        displayTree(root->left);
-        displayTree(root->right);
+            displayTree(root->left);
+            displayTree(root->right);
         printf(")");
     }
 }
