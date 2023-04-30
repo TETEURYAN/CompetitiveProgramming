@@ -48,20 +48,14 @@ struct stack * push(struct stack * list, int num){
         return insertNode(num);
     }
     else{
-        
-        if(isFull(list, 10, 0)){
-            return list;
-        }
-        else{
-            struct stack * aux = list;
+        struct stack * aux = list;
             
-            while(aux->next){
-                aux = aux->next;
-            }
-            aux->next = insertNode(num);
-            return list;
+        while(aux->next){
+            aux = aux->next;
         }
-    }
+        aux->next = insertNode(num);
+        return list;
+        }
 }
 
 int peek(struct stack * list){
