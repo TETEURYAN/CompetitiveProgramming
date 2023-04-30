@@ -1,57 +1,80 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+#include<iso646.h>
+
 struct stack{
     int value;
     struct stack * next;
 };
 
-struct stack * getnode(struct stack * node,  int num){
-
-    struct stack * aux = malloc(sizeof(struct stack));
-
-    aux->value = num;
-    aux->next = node;
-    
-    return aux;
+bool isFull(struct stack * list, int tam, int i){
+    if(list){
+        return isFull(list, tam, ++i);
+    }
+    else return (i == tam) ? true : false;
 }
 
-struct stack * pop(struct stack * stack){
+bool isEmpty(struct stack * list){
+    return (not list);
+}
 
-    if(not stack){
-        return NULL;
+struct stack * getnode(){
+    return malloc(sizeof(struct stack));
+}
+
+struct stack * insertNode(int num){
+    struct stack * example = getnode();
+    
+    if(example){
+        example->value = num;
+        example->next = NULL;
+        return example;
+    }
+}
+
+struct stack * pop(struct stack * list){
+    struct stack * aux = list;
+    
+    while(aux->next->next){
+        aux = aux->next;
+    }
+    aux->next = NULL;
+    return list;
+}
+
+struct stack * push(struct stack * list, int num){
+    if(not list){
+        return insertNode(num);
     }
     else{
-        struct stack * aux = stack;
-        aux = stack;
-        stack = stack->next;
-        free(aux);
-        return stack;
+        
+        if(isFull(list, 10, 0)){
+            return list;
+        }
+        else{
+            struct stack * aux = list;
+            
+            while(aux->next){
+                aux = aux->next;
+            }
+            aux->next = insertNode(num);
+            return list;
+        }
     }
 }
 
-struct stack * push(struct stack *node, int value){
-    return getnode(node, value);
+int peek(struct stack * list){
+    if(list->next){
+        return peek(list->next);
+    }
+    return (list->value);
 }
 
-int peek(struct stack * node){
-    return (node->value);
-}
-
-bool isEmpty(struct stack * node){
-    return node;
-}
-
-int sizeStack(struct stack * node){
-    if(node){
-        return 1 + sizeStack(node);
+void display(struct stack * list){
+    if(list){
+        printf("%d ", list->value);
+        display(list->next);
     }
 }
 
-bool isFull(struct stack * node,int size){
-    return (size < sizeStack(node));
-}
-
-void display(struct stack * node){
-    if(node){
-        printf("%d ", node->value);
-        display(node->next);
-    }
-}
