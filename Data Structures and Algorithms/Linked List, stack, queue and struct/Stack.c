@@ -12,7 +12,7 @@ bool isFull(struct stack * list, int tam, int i){
     if(list){
         return isFull(list, tam, ++i);
     }
-    else return (i == tam) ? true : false;
+    else return (i == tam);
 }
 
 bool isEmpty(struct stack * list){
@@ -35,26 +35,20 @@ struct stack * insertNode(int num){
 
 struct stack * pop(struct stack * list){
     struct stack * aux = list;
-    
-    while(aux->next->next){
-        aux = aux->next;
-    }
-    aux->next = NULL;
+    list = list->next;
+    free(aux);
     return list;
 }
 
-struct stack * push(struct stack * list, int num){
+struct stack * push(struct stack * list, struct person client){
     if(not list){
-        return insertNode(num);
+        return insertNode(client);
     }
     else{
-        struct stack * aux = list;
-            
-        while(aux->next){
-            aux = aux->next;
-        }
-        aux->next = insertNode(num);
-        return list;
+        struct stack * aux = getnode();
+        aux->cliente = client;
+        aux->next = list;
+        return aux;
         }
 }
 
