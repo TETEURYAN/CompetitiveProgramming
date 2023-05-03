@@ -40,13 +40,13 @@ struct stack * pop(struct stack * list){
     return list;
 }
 
-struct stack * push(struct stack * list, struct person client){
+struct stack * push(struct stack * list, int num){
     if(not list){
-        return insertNode(client);
+        return insertNode(num);
     }
     else{
         struct stack * aux = getnode();
-        aux->cliente = client;
+        aux->value = num;
         aux->next = list;
         return aux;
         }
