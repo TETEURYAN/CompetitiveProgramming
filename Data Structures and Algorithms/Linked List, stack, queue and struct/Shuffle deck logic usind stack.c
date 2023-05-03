@@ -121,12 +121,4 @@ void main(){
     scanf("%d", &tam);
     
     solve(tam);
-    
-    // struct stack * pilha = NULL;
-    // randon(&pilha, 10, 0);
-    
-    // display(pilha);
-    
-    // pilha = shuffle(pilha, 10);
-    // display(pilha);
 }
