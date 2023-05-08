@@ -71,7 +71,7 @@ struct stack * shuffle(struct stack * peek, int size){
 
 void randon(struct stack ** peek, int tam, int i){
     if(i < tam){
-        (*peek) = push((*peek), random()%tam);
+        (*peek) = push((*peek), 1 + (random()%tam));
         randon(peek, tam, ++i);
     }
 }
