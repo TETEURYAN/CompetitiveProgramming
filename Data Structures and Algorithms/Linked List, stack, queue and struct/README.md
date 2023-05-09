@@ -36,6 +36,28 @@ struct Person
 
 Stack is an abstract data structure used with the principle FILO(First in, Last out). The best known functions of this structure are Peek, Pop and Push.
 
+```C
+
+struct stack * pop(struct stack * list){
+    struct stack * aux = list;
+    list = list->next;
+    free(aux);
+    return list;
+}
+
+struct stack * push(struct stack * list, int num){
+    if(not list){
+        return insertNode(num);
+    }
+    else{
+        struct stack * aux = getnode();
+        aux->value = num;
+        aux->next = list;
+        return aux;
+        }
+}
+```
+
 # Queue
 
 Queue is an abstract data structure of type FIFO(First in, first out).
