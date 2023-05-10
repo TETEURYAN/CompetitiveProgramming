@@ -62,4 +62,41 @@ struct stack * push(struct stack * list, int num){
 
 Queue is an abstract data structure of type FIFO(First in, first out).
 
-#Hash Table
+```C
+struct queue * putValue(struct queue * list, int num){
+    if(not list){
+        return insertNode(num);
+    }
+    else{
+        struct queue * aux = list;
+            while(aux->next){
+                aux=aux->next;
+            }
+            aux->next = insertNode(num);
+            return list;
+        }
+}
+
+int outValue(struct queue ** list){
+    int first = (*list)->value;
+    struct queue * aux = (*list);
+    (*list) = (*list)->next;
+    free(aux);
+    return first;
+}
+
+int sizeQueue(struct queue * list){
+    if(list){
+        return 1 + sizeQueue(list->next);
+    }
+    else return 0;
+}
+
+bool isEmpty(struct queue * list){
+    return list;
+}
+
+bool isFull(struct queue * list, int tam){
+    return (sizeQueue(list) >= tam);
+}
+```
