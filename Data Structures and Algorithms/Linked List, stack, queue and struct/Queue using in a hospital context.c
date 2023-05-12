@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <iso646.h>
+#include <time.h>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -16,6 +18,8 @@ typedef struct {
     char name[50];
     int priority; 
     int age; 
+    int time;
+    bool apend;
 } Person;
 
 typedef struct {
@@ -39,8 +43,15 @@ Person getPerson(){
     if (peek.age < 5 or peek.age > 80) peek.priority = 0;
     else if (peek.age >= 5 and peek.age < 16 or peek.age > 60 and peek.age < 80) peek.priority = 1;
     else peek.priority = 2;
+
+    peek.time = 0;
+    peek.apend = true;
     
     return peek;
+}
+
+Person peek( Queue list){
+    return list.wait[0];
 }
 
 void enqueue(Queue *queue, Person patient) {
@@ -61,6 +72,7 @@ void enqueue(Queue *queue, Person patient) {
                     queue->wait[j] = queue->wait[j - 1];
                 }
                 queue->wait[i] = patient;
+                queue->rear++;
                 break;
             }
         }
@@ -73,14 +85,19 @@ void enqueue(Queue *queue, Person patient) {
 
 
 Person dequeue(Queue *queue) {
-    if (queue->front == -1 or queue->front > queue->rear) {
-        printf("Queue is empty!\n");
-        Person empty_patient = {-1, -1};
-        return empty_patient;
+    if (queue->front == -1 or queue->front >= queue->rear) {
+
+        Person empty = {-1, -1};
+        empty.apend = false;
+        return empty;
     }
 
     Person patient = queue->wait[queue->front];
-    queue->front++;
+
+    for(int i = 0; i < queue->rear; i++){
+        queue->wait[i] = queue->wait[i+1];
+    }
+    queue->rear--;
 
     return patient;
 }
@@ -96,8 +113,15 @@ int main() {
     Fila.front = -1;
     Fila.rear = -1;
 
+    srand(time(NULL));
+
+    Person apointment;
+
     while(1){
-        printf("Opcoes:\n\n\t(1) - Inserir pessoa na fila\n\t(2) - Remover pessoa da fila\n\t(3) - Ver histórico total\n\t(4) - Ver fila atual\n\t(5) - Adicionar 15 minutos\n\t(0) - Sair\n\n");
+        system("clear || cls");
+        printf("Opcoes:\n\n\t(1) - Inserir pessoa na fila\n\t(2) - Remover pessoa da fila\n\t(3) - Ver quem esta sendo atendido\n\t(4) - Ver fila atual\n\t(5) - Adicionar 15 minutos\n\t(0) - Sair\n\n");
+        
+
         int op;
         scanf("%d", &op);
         getchar();
@@ -107,18 +131,36 @@ int main() {
             break;
 
             case 2:
-            dequeue(&Fila);
             break;
 
             case 3:
+                if(Fila.front != -1 or Fila.front == Fila.rear){
+                    
+                    if(apointment.apend){
+                        printf("Neste momento %s esta sendo atendido | Tempo decorrido  de %d minutos.\n", apointment.name, apointment.time );
+                    }
+                }
+                else{
+                    printf("A fila esta vazia!\n");
+                }
+                getchar();
+
             break;
 
             case 4:
-            display(Fila, 0);
+            if(Fila.front != Fila.rear)
+                display(Fila, 0);
+            else printf("A fila esta vazia!\n");    
             getchar();
             break;
         }
+        if(Fila.wait[0].time < 30){
+            Fila.wait[0].time += ((rand() % 15));
+        }
+        else{
+            apointment =  dequeue(&Fila);
+        }
+        
     }
-
     return 0;
 }
