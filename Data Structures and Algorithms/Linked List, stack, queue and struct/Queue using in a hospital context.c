@@ -55,7 +55,7 @@ Person peek( Queue list){
 }
 
 bool isEmpty(Queue list){
-    return (list.front == list.rear);
+    return (list.front >= list.rear);
 }
 
 void enqueue(Queue *queue, Person patient) {
@@ -96,7 +96,7 @@ Person dequeue(Queue *queue) {
         return empty;
     }
     Person patient = queue->wait[queue->front];
-    patient.apend = true;
+    patient.apend = (queue->front > queue->rear) ? false : true;
     queue->front++;
 
     return patient;
@@ -146,7 +146,6 @@ int main() {
                     apointment = dequeue(&Fila);
                 }
                 getchar();
-
             break;
 
             case 4:
