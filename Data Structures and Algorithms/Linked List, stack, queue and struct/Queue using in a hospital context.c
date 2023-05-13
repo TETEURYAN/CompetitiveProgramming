@@ -54,6 +54,10 @@ Person peek( Queue list){
     return list.wait[0];
 }
 
+bool isEmpty(Queue list){
+    return (list.front == list.rear);
+}
+
 void enqueue(Queue *queue, Person patient) {
     if (queue->rear == MAX_SIZE - 1) {
         printf("Queue is full!\n");
@@ -85,19 +89,15 @@ void enqueue(Queue *queue, Person patient) {
 
 
 Person dequeue(Queue *queue) {
-    if (queue->front == -1 or queue->front >= queue->rear) {
+    if (queue->front == -1) {
 
         Person empty = {-1, -1};
         empty.apend = false;
         return empty;
     }
-
     Person patient = queue->wait[queue->front];
-
-    for(int i = 0; i < queue->rear; i++){
-        queue->wait[i] = queue->wait[i+1];
-    }
-    queue->rear--;
+    patient.apend = true;
+    queue->front++;
 
     return patient;
 }
@@ -114,53 +114,53 @@ int main() {
     Fila.rear = -1;
 
     srand(time(NULL));
-
+    
     Person apointment;
+    
+    bool first = true;
 
     while(1){
         system("clear || cls");
         printf("Opcoes:\n\n\t(1) - Inserir pessoa na fila\n\t(2) - Remover pessoa da fila\n\t(3) - Ver quem esta sendo atendido\n\t(4) - Ver fila atual\n\t(5) - Adicionar 15 minutos\n\t(0) - Sair\n\n");
-        
+        printf("Escolha um número: ");    
 
         int op;
         scanf("%d", &op);
         getchar();
         switch(op){
             case 1:
-            enqueue(&Fila, getPerson());
+                enqueue(&Fila, getPerson());
+                if(first) apointment = dequeue(&Fila);
+                first = false;
             break;
 
             case 2:
             break;
 
-            case 3:
-                if(Fila.front != -1 or Fila.front == Fila.rear){
-                    
-                    if(apointment.apend){
-                        printf("Neste momento %s esta sendo atendido | Tempo decorrido  de %d minutos.\n", apointment.name, apointment.time );
-                    }
+            case 3:  
+                if(apointment.apend){
+                    printf("Neste momento %s esta sendo atendido | Tempo decorrido  de %d minutos.\n", apointment.name, apointment.time );
                 }
                 else{
-                    printf("A fila esta vazia!\n");
+                    printf("Nao ha ninguém sendo atendido agora!\n");
+                    apointment = dequeue(&Fila);
                 }
                 getchar();
 
             break;
 
             case 4:
-            if(Fila.front != Fila.rear)
-                display(Fila, 0);
+            if(not isEmpty(Fila))
+                display(Fila, Fila.front);
             else printf("A fila esta vazia!\n");    
             getchar();
             break;
         }
-        if(Fila.wait[0].time < 30){
-            Fila.wait[0].time += ((rand() % 15));
+        if(apointment.time < 30){
+            apointment.time += ((rand() % 15));
         }
-        else{
-            apointment =  dequeue(&Fila);
-        }
-        
+        else apointment =  dequeue(&Fila);
+
     }
     return 0;
 }
