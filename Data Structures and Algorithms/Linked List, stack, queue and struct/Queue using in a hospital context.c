@@ -41,7 +41,7 @@ Person getPerson(){
     system("clear || cls");
     
     if (peek.age < 5 or peek.age > 80) peek.priority = 2;
-    else if (peek.age >= 5 and peek.age < 16 or peek.age > 60 and peek.age < 80) peek.priority = 1;
+    else if (peek.age < 16 or peek.age > 60) peek.priority = 1;
     else peek.priority = 0;
 
     peek.time = 0;
@@ -208,7 +208,6 @@ int main() {
             getchar();
             break;
         }
-
     }
     return 0;
 }
