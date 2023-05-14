@@ -202,12 +202,13 @@ int main() {
             break;
 
             case 4:
-            if(not isEmpty(Fila) or cont == 0)
+            if(not isEmpty(Fila) and not first)
                 display(Fila, 0, Fila.front);
             else printf("A fila esta vazia!\n");    
             getchar();
             break;
         }
+
     }
     return 0;
 }
