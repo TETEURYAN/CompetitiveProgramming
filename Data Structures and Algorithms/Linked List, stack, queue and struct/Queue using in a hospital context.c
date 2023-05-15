@@ -62,10 +62,22 @@ bool isEmpty(Queue list){
     return (list.front > list.rear);
 }
 
-void enqueue(Queue *queue, Person patient) {
+bool isOk(int number){
+    return (number > 0 and number < 8);
+}
+
+void fillBool(bool * list){
+    for(int i = 0; i < 7; i++){
+        list[i] = true;
+    }
+}
+
+void enqueue(Queue *queue, Queue list[], int day, Person patient) {
     if (queue->rear == tam-1) {
-        printf("A fila esta cheia!\n");
-        return;
+            if(day < 7){
+                enqueue(&list[day++], list, day++, patient);
+            }
+            else return (void) printf("Limite atingido de atendimento!\n");
     }
 
     if (queue->front == -1 and queue->rear == -1) {
@@ -113,7 +125,7 @@ Person dequeue(Queue *queue) {
     return patient;
 }
 
-void displayPeek(Person * peek, Queue * list, int cont, bool first){
+void displayPeek(Person * peek, Queue * list, int cont, int day, bool first){
 
     if((*peek).apend){
         printf("Neste momento %s esta sendo atendido | Tempo decorrido  de %d minutos.\n", (*peek).name, (*peek).time );
@@ -124,7 +136,7 @@ void displayPeek(Person * peek, Queue * list, int cont, bool first){
             (*peek) = dequeue(list);
         }
     }
-    printf("Atendimentos realizado hoje: %d\n", cont);
+    printf("Atendimentos realizado no dia %d: %d\n", day, cont);
 }
 
 void display(Queue list, int j, int i){
@@ -133,26 +145,39 @@ void display(Queue list, int j, int i){
     display(list,++j, ++i);
 }
 
+void fillQueue(Queue * list){
+    for(int i = 0; i < 7; i++){
+        list[i].front = -1;
+        list[i].rear = -1;
+    }
+}
+
 int main() {
-    Queue Fila;
-    Fila.front = -1;
-    Fila.rear = -1;
+    Queue Fila[7];
+    fillQueue(Fila);
+    
+    // for(int i = 0; i < 7; i++){
+    //     printf("%d %d %d\n", i, Fila[i].front, Fila[i].rear);
+    // }
+
 
     srand(time(NULL));
-    int cont = 0;
+    int cont = 0, day = 0, nowDay = 0;
     Person apointment;
 
     system("clear || cls");
     printf("Digite quantas pessoas serao antedidas no dia de hoje: ");
     scanf("%d", &tam);
     
-    bool first = true;
-
+    bool first[7];
+    fillBool(first);
+    
     while(1){
-        int op;
+        int op, chooseDay, index;
+        Person example;
         system("clear || cls");
         printf("Opcoes:\n\n\t(1) - Inserir pessoa na fila\n\t(2) - Girar tempo\n\t(3) - Remover paciente da fila\n\t(4) - Ver fila atual\n\t(0) - Sair\n\n");
-        displayPeek(&apointment, &Fila,cont, first);
+        displayPeek(&apointment, &Fila[nowDay],cont, nowDay+1, first[nowDay]);
         printf("\nEscolha um número: ");    
 
         scanf("%d", &op);
@@ -160,52 +185,71 @@ int main() {
         switch(op){
             case 0:
                 exit(0);
-                break;
+            break;
             
             case 1:
+                example = getPerson();
                 if(cont < tam){
-                    enqueue(&Fila, getPerson());
-                    if(first){
-                        apointment = dequeue(&Fila);
+                    enqueue(&Fila[day], Fila, day, example);
+                    if(first[0]){
+                        apointment = dequeue(&Fila[day]);
                         cont++;
                     }
-                    first = false;
+                    first[day] = false;
                 }
                 else{
-                    printf("O numero maximo de antendimentos por dia foi atingido!\n");
-                    exit(0);
+                    day++;
+                    enqueue(&Fila[day], Fila, day, example);
+                    cont = 0;
+                    
                 }
-
             break;
-
+            
             case 2:
                 if(apointment.time < 30){
                     apointment.time += ((rand() % 15));
                 }
                 else{
-                    apointment = dequeue(&Fila);
+                    apointment = dequeue(&Fila[day]);
                     cont++;
+                    nowDay++;
                 }
             break;
 
             case 3:
-            if(not isEmpty(Fila)){
-                int index;
-                printf("Digite o valor que será removido: ");
-                scanf("%d", &index);
-                dequeueIndex(&Fila, index);
-            }  
-            else{
-                printf("A fila esta vazia!\n");
-                getchar();
-            }
+                
+                do{
+                    system("clear || cls");
+                    printf("Digite o dia que terá o valor removido: ");
+                    scanf("%d", &chooseDay);
+                }while(not isOk(chooseDay));
+                
+                if(not isEmpty(Fila[chooseDay])){
+                    do{
+                        system("clear || cls");
+                        printf("Digite o valor que será removido: ");
+                        scanf("%d", &index);
+                    }while(not isOk(index));
+                    dequeueIndex(&Fila[chooseDay-1], index);
+                }  
+                else{
+                    printf("A fila esta vazia para o dia %d!\n", chooseDay);
+                    getchar();
+                }
             break;
 
             case 4:
-            if(not isEmpty(Fila) and not first)
-                display(Fila, 1, Fila.front);
-            else printf("A fila esta vazia!\n");    
-            getchar();
+                do{
+                    system("clear || cls");
+                    printf("Digite o dia escolhido para ver: ");
+                    scanf("%d", &chooseDay);
+                }while(not isOk(chooseDay));
+                
+                display(Fila[chooseDay-1], 1, Fila[chooseDay-1].front);
+                //if(not isEmpty(Fila[chooseDay-1]) and not first[chooseDay-1])
+                //else printf("A fila esta vazia para o dia %d!\n", chooseDay);    
+                getchar();
+                
             break;
         }
     }
