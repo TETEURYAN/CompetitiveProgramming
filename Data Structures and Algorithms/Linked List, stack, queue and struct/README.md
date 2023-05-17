@@ -99,4 +99,5 @@ bool isEmpty(struct queue * list){
 bool isFull(struct queue * list, int tam){
     return (sizeQueue(list) >= tam);
 }
+
 ```
