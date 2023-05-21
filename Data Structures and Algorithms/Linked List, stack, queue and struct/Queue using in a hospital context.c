@@ -268,20 +268,32 @@ int main() {
             break;
 
             case 3:
-                
+                int input_remove;
+                do{
+                    system("clear || cls");
+                    printf("\t(1) - Sair do antendimento\n\t(2) - Reagendar para o proximo dia util\n");
+                    printf("Escolha: ");
+                    scanf("%d", &input_remove);
+                }while(input_remove != 2 and input_remove != 1);
+
                 do{
                     system("clear || cls");
                     printf("Digite o dia que terá o valor removido: ");
                     scanf("%d", &chooseDay);
                 }while(not isOk(chooseDay));
                 
-                if(not isEmpty(Fila[chooseDay])){
+                if(not isEmpty(Fila[chooseDay-1])){
                     do{
                         system("clear || cls");
                         printf("Digite o valor que será removido: ");
                         scanf("%d", &index);
                     }while(not isOk(index));
-                    dequeueIndex(&Fila[chooseDay-1], index);
+                    
+                   if(input_remove == 2){
+                        enqueue(&Fila[day], Fila, &day, Fila[chooseDay-1].wait[index]);
+                        dequeueIndex(&Fila[chooseDay-1], index);
+                   }
+                   else dequeueIndex(&Fila[chooseDay-1], index);
                 }  
                 else{
                     printf("A fila esta vazia para o dia %d!\n", chooseDay);
