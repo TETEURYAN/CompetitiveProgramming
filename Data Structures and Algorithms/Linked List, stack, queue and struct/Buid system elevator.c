@@ -110,12 +110,13 @@ struct statement ** initStatement(struct statement ** traveled, int ** state){
         }
     }
 
-    // for(int i = 0; i < 300; i++)
-    //     for(int j = 0; j < 3; j++)
-    //         if(traveled[i][j].floor)
-    //             printf("Coordinate x %d Coordinate y %d\n", traveled[i][j].now.x, traveled[i][j].now.y );
 
-    // getchar(); 
+
+    for(int i = 0; i < 300; i++)
+        for(int j = 0; j < 3; j++)
+            if(traveled[i][j].floor)
+                printf("Coordinate x %d Coordinate y %d\n", traveled[i][j].now.x, traveled[i][j].now.y);
+    getchar(); 
     return traveled;
 }
 
@@ -207,6 +208,75 @@ struct choosen initSelect(struct choosen select, bool operation, bool type){
     return select;
 }
 
+
+struct statement **updateStatement(struct statement **traveled, int **state, int from_floor, int from_corridor, int to_floor, int to_corridor){
+    if(from_floor == to_floor && from_corridor == to_corridor){
+        return traveled;
+    }
+
+    int elevator_number = state[from_floor][from_corridor];
+
+    if(elevator_number == 0){
+        printf("Não há elevador disponível nesse andar e corredor.\n");
+        return traveled;
+    }
+
+    if(traveled[from_floor][from_corridor].moovment){
+        printf("Esse elevador já está em movimento.\n");
+        return traveled;
+    }
+
+    traveled[from_floor][from_corridor].moovment = true;
+    traveled[from_floor][from_corridor].destiny.x = to_floor;
+    traveled[from_floor][from_corridor].destiny.y = to_corridor;
+
+    printf("Elevador %d está se movendo do andar %d, corredor %d para o andar %d, corredor %d.\n",
+           elevator_number, from_floor, from_corridor, to_floor, to_corridor);
+
+    // Simulação do movimento do elevador
+    while (from_floor != to_floor || from_corridor != to_corridor) {
+        printf("Elevador %d no andar %d, corredor %d\n", elevator_number, from_floor, from_corridor);
+
+        // Verifica se deve mudar de corredor
+        if ((from_floor + 1) % 10 == 0) {
+            int new_corridor = (from_corridor + 1) % 3;
+            int new_floor = from_floor + 1;
+            traveled[from_floor][from_corridor].floor = false;
+            traveled[new_floor][new_corridor].now.x = new_floor;
+            traveled[new_floor][new_corridor].now.y = new_corridor;
+            traveled[new_floor][new_corridor].floor = true;
+            traveled[new_floor][new_corridor].number = elevator_number;
+            state[from_floor][from_corridor] = 0;
+            state[new_floor][new_corridor] = elevator_number;
+            from_floor = new_floor;
+            from_corridor = new_corridor;
+        } else {
+            // Movimento vertical
+            if (from_floor < to_floor) {
+                from_floor++;
+            } else {
+                from_floor--;
+            }
+        }
+
+    #ifdef _WIN32
+            Sleep(1000); // Pausa de 1 segundo para simular o movimento
+    #else
+            sleep(1);
+    #endif
+        }
+
+    traveled[from_floor][from_corridor].moovment = false;
+    traveled[from_floor][from_corridor].destiny.x = -1;
+    traveled[from_floor][from_corridor].destiny.y = -1;
+
+    printf("Elevador %d chegou ao destino no andar %d, corredor %d.\n", elevator_number, from_floor, from_corridor);
+    getchar();
+    getchar();
+
+    return traveled;
+}
+
 void initFloors(struct build * architecture){
     FILE * floor;
     floor = fopen("build.txt", "w");
@@ -217,12 +287,11 @@ void initFloors(struct build * architecture){
     fclose(floor);
 }
 
-void menu(int ** state, struct build * architecture){
-
+void menu(int **state, struct statement **traveled, struct build *architecture){
     int op, i = 0;
     struct choosen select;
     while(true){
-        system("clear or cls");
+        // system("clear or cls");
         printf("\n\tSISTEMA DE ELEVADOR\n\n");
         printf("Opcoes:\n");
         printf("\t(1) - Subir a partir do terreo\n\t(2) - Descer até o terreo\n\t(3) - Subir ou descer entre os APs\n\nEscolha:");
@@ -232,20 +301,22 @@ void menu(int ** state, struct build * architecture){
         switch(op){
             case 1:
                 select = initSelect(select, true, true);
-            break;
+                traveled = updateStatement(traveled, state, 0, select.b, select.a, select.b);
+                break;
 
             case 2:
                 select = initSelect(select, true, false);
-            break;
+                traveled = updateStatement(traveled, state, select.a, select.b, 0, select.b);
+                break;
 
             case 3:
                 select = initSelect(select, false, false);
-            break;
+                traveled = updateStatement(traveled, state, select.a, select.b, select.c, select.d);
+                break;
 
             case 4:
                 exit(0);
-            break;
-
+                break;
         }
     }
 }
@@ -262,7 +333,7 @@ int main(){
 
     initFloors(architecture);
 
-    menu(state, architecture);
+    menu(state, traveled, architecture);
 
     return 0;
 }
