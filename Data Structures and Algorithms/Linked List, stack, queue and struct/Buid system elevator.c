@@ -95,6 +95,10 @@ struct statement ** initStatement(struct statement ** traveled, int ** state){
     for(int i = 0; i < 300; i++){
         traveled[i] = calloc(3, sizeof(struct statement));
     }
+    
+    for(int i = 0; i < 300; i++)
+        for(int j = 0; j < 3; j++)
+            traveled[i][j].floor = false;
 
     if(traveled){
         for(int i = 0; i < 300; i++){
@@ -110,13 +114,95 @@ struct statement ** initStatement(struct statement ** traveled, int ** state){
         }
     }
 
+    // for(int i = 0; i < 300; i++)
+    //     for(int j = 0; j < 3; j++)
+    //         if(traveled[i][j].floor)
+    //             printf("Coordinate x %d Coordinate y %d Number %d\n", traveled[i][j].now.x, traveled[i][j].now.y, traveled[i][j].number);
+    // getchar(); 
+    return traveled;
+}
 
 
-    for(int i = 0; i < 300; i++)
-        for(int j = 0; j < 3; j++)
-            if(traveled[i][j].floor)
-                printf("Coordinate x %d Coordinate y %d\n", traveled[i][j].now.x, traveled[i][j].now.y);
-    getchar(); 
+struct statement ** initTravel(struct statement **traveled, int **state, int from_floor, int from_corridor, int to_floor, int to_corridor){
+    struct coordinates distance = getDist(from_floor, from_corridor, state);
+    printf("Corrdinate (%d, %d)\n", distance.x, distance.y);
+    if(not traveled[from_floor][from_corridor].floor){
+        traveled[from_floor][from_corridor].number = state[distance.x][distance.y];
+        traveled[from_floor][from_corridor].moovment = true;
+        traveled[from_floor][from_corridor].now.x = from_floor;
+        traveled[from_floor][from_corridor].now.y = from_corridor;
+        traveled[from_floor][from_corridor].floor = true;
+        traveled[from_floor][from_corridor].destiny.x = to_floor;
+        traveled[from_floor][from_corridor].destiny.y = to_corridor;
+        state[distance.x][distance.y] = 0;
+
+        traveled[distance.x][distance.y].number = 0;
+        traveled[distance.x][distance.y].floor = false;
+        traveled[distance.x][distance.y].moovment = false;
+    }
+    else{
+        
+        traveled[from_floor][from_corridor].moovment = true;
+        traveled[from_floor][from_corridor].now.x = from_floor;
+        traveled[from_floor][from_corridor].now.y = from_corridor;
+        traveled[from_floor][from_corridor].floor = true;
+        traveled[from_floor][from_corridor].destiny.x = to_floor;
+        traveled[from_floor][from_corridor].destiny.y = to_corridor;
+    }
+    return traveled;
+}
+
+struct statement **updateStatement(struct statement **traveled){
+    FILE * registered;
+    registered = fopen("register.txt", "w");
+
+
+    struct coordinates actually;
+    for(int i = 0; i < 300; i++){
+        for(int j = 0; j < 3; j++){
+            if(traveled[i][j].moovment){
+                if(traveled[i][j].destiny.x != traveled[i][j].now.x){
+                    if(traveled[i][j].destiny.x < traveled[i][j].now.x){
+                        if(traveled[i-1][j].floor and not traveled[i][j-1].floor ){
+                            traveled[i][j].now.y--;
+                        }
+                        else if(traveled[i-1][j].floor and not traveled[i][j+1].floor ){
+                            traveled[i][j].now.y++;
+                        }
+                        traveled[i][j].now.x--;
+                    }
+                    else if(traveled[i][j].destiny.x > traveled[i][j].now.x) {
+                        if(traveled[i+1][j].floor and not traveled[i][j-1].floor ){
+                            traveled[i][j].now.y--;
+                        }
+                        else if(traveled[i+1][j].floor and not traveled[i][j+1].floor ){
+                            traveled[i][j].now.y++;
+                        }
+                        traveled[i][j].now.x++;
+                    }
+                    actually.x = traveled[i][j].now.x;
+                    actually.y = traveled[i][j].now.y;
+                    fprintf(registered, "O elevador %c se moveu de (%d, %d) para (%d, %d)\n", getSymbol(traveled[i][j].number), i, j, actually.x, actually.y);
+                        
+                    traveled[actually.x][actually.y].number = traveled[i][j].number;
+                    traveled[actually.x][actually.y].moovment = true;
+                    traveled[actually.x][actually.y].now.x = actually.x;
+                    traveled[actually.x][actually.y].now.y = actually.y;
+                    traveled[actually.x][actually.y].floor = true;
+                    traveled[actually.x][actually.y].destiny = traveled[i][j].destiny;
+
+                    
+                    traveled[i][j].floor = false;
+                    traveled[i][j].moovment = false;
+
+
+                }
+                else  traveled[i][j].moovment = false;
+            }
+        }
+    }
+
+    fclose(registered);
     return traveled;
 }
 
@@ -148,13 +234,13 @@ struct choosen initSelect(struct choosen select, bool operation, bool type){
     
     if(operation and type){
         do{
-            system("clear or cls");
+            system("clear || cls");
             printf("Digite o valor do andar de destino: ");
             scanf("%d", &select.a);
         }while(select.a < 1 or select.a > 300);
 
         do{
-            system("clear or cls");
+            system("clear || cls");
             printf("Digite o valor do corredor de destino: ");
             scanf("%d", &select.b);
             --select.b;
@@ -163,13 +249,13 @@ struct choosen initSelect(struct choosen select, bool operation, bool type){
 
     else if(operation and not type){
         do{
-            system("clear or cls");
+            system("clear || cls");
             printf("Digite o valor do andar em que se encontra: ");
             scanf("%d", &select.a);
         }while(select.a < 1 or select.a > 300);
 
         do{
-            system("clear or cls");
+            system("clear || cls");
             printf("Digite o valor do corredor em que se encontra: ");
             scanf("%d", &select.b);
             --select.b;
@@ -179,26 +265,26 @@ struct choosen initSelect(struct choosen select, bool operation, bool type){
     else{
 
         do{
-            system("clear or cls");
+            system("clear || cls");
             printf("Digite o valor do andar em que se encontra: ");
             scanf("%d", &select.a);
         }while(select.a < 1 or select.a > 300);
 
         do{
-            system("clear or cls");
+            system("clear || cls");
             printf("Digite o valor do corredor em que se encontra: ");
             scanf("%d", &select.b);
             --select.b;
         }while(select.b < 0 or select.b > 2);
 
         do{
-            system("clear or cls");
+            system("clear || cls");
             printf("Digite o valor do andar de destino: ");
             scanf("%d", &select.c);
         }while(select.c < 1 or select.c > 300);
 
         do{
-            system("clear or cls");
+            system("clear || cls");
             printf("Digite o valor do corredor de destino: ");
             scanf("%d", &select.d);
             --select.d;
@@ -208,73 +294,24 @@ struct choosen initSelect(struct choosen select, bool operation, bool type){
     return select;
 }
 
-
-struct statement **updateStatement(struct statement **traveled, int **state, int from_floor, int from_corridor, int to_floor, int to_corridor){
-    if(from_floor == to_floor && from_corridor == to_corridor){
-        return traveled;
+int ** updateState(struct statement ** traveled, int ** state){
+    for(int i = 0; i < 300; i++){
+        for(int j = 0; j < 3; j++){
+            state[i][j] = 0;
+        }
     }
 
-    int elevator_number = state[from_floor][from_corridor];
-
-    if(elevator_number == 0){
-        printf("Não há elevador disponível nesse andar e corredor.\n");
-        return traveled;
-    }
-
-    if(traveled[from_floor][from_corridor].moovment){
-        printf("Esse elevador já está em movimento.\n");
-        return traveled;
-    }
-
-    traveled[from_floor][from_corridor].moovment = true;
-    traveled[from_floor][from_corridor].destiny.x = to_floor;
-    traveled[from_floor][from_corridor].destiny.y = to_corridor;
-
-    printf("Elevador %d está se movendo do andar %d, corredor %d para o andar %d, corredor %d.\n",
-           elevator_number, from_floor, from_corridor, to_floor, to_corridor);
-
-    // Simulação do movimento do elevador
-    while (from_floor != to_floor || from_corridor != to_corridor) {
-        printf("Elevador %d no andar %d, corredor %d\n", elevator_number, from_floor, from_corridor);
-
-        // Verifica se deve mudar de corredor
-        if ((from_floor + 1) % 10 == 0) {
-            int new_corridor = (from_corridor + 1) % 3;
-            int new_floor = from_floor + 1;
-            traveled[from_floor][from_corridor].floor = false;
-            traveled[new_floor][new_corridor].now.x = new_floor;
-            traveled[new_floor][new_corridor].now.y = new_corridor;
-            traveled[new_floor][new_corridor].floor = true;
-            traveled[new_floor][new_corridor].number = elevator_number;
-            state[from_floor][from_corridor] = 0;
-            state[new_floor][new_corridor] = elevator_number;
-            from_floor = new_floor;
-            from_corridor = new_corridor;
-        } else {
-            // Movimento vertical
-            if (from_floor < to_floor) {
-                from_floor++;
-            } else {
-                from_floor--;
+    for(int i = 0; i < 300; i++){
+        for(int j = 0; j < 3; j++){
+            if(traveled[i][j].floor){
+                state[i][j] = traveled[i][j].number;
+                //printf("Coordinate x %d Coordinate y %d Number %d\n", traveled[i][j].now.x, traveled[i][j].now.y, traveled[i][j].number);
             }
         }
+    }
 
-    #ifdef _WIN32
-            Sleep(1000); // Pausa de 1 segundo para simular o movimento
-    #else
-            sleep(1);
-    #endif
-        }
+    return state;
 
-    traveled[from_floor][from_corridor].moovment = false;
-    traveled[from_floor][from_corridor].destiny.x = -1;
-    traveled[from_floor][from_corridor].destiny.y = -1;
-
-    printf("Elevador %d chegou ao destino no andar %d, corredor %d.\n", elevator_number, from_floor, from_corridor);
-    getchar();
-    getchar();
-
-    return traveled;
 }
 
 void initFloors(struct build * architecture){
@@ -291,7 +328,7 @@ void menu(int **state, struct statement **traveled, struct build *architecture){
     int op, i = 0;
     struct choosen select;
     while(true){
-        // system("clear or cls");
+        system("clear || cls");
         printf("\n\tSISTEMA DE ELEVADOR\n\n");
         printf("Opcoes:\n");
         printf("\t(1) - Subir a partir do terreo\n\t(2) - Descer até o terreo\n\t(3) - Subir ou descer entre os APs\n\nEscolha:");
@@ -301,23 +338,41 @@ void menu(int **state, struct statement **traveled, struct build *architecture){
         switch(op){
             case 1:
                 select = initSelect(select, true, true);
-                traveled = updateStatement(traveled, state, 0, select.b, select.a, select.b);
+                traveled = initTravel(traveled, state, 0, 0, select.a, select.b);
                 break;
 
             case 2:
                 select = initSelect(select, true, false);
-                traveled = updateStatement(traveled, state, select.a, select.b, 0, select.b);
+                traveled = initTravel(traveled, state, select.a, select.b, 0, 0);
                 break;
 
             case 3:
                 select = initSelect(select, false, false);
-                traveled = updateStatement(traveled, state, select.a, select.b, select.c, select.d);
+                traveled = initTravel(traveled, state, select.a, select.b, select.c, select.d);
                 break;
 
             case 4:
-                exit(0);
+                for(int i = 0; i < 300; i++ ){
+                    for(int j = 0; j < 3; j++){
+                        printf("%d ", state[i][j]);
+                    }
+                    printf("\n");
+                }
+
+                for(int i = 0; i < 300; i++)
+                    for(int j = 0; j < 3; j++)
+                        if(traveled[i][j].floor)
+                            printf("%d %d\n", traveled[i][j].now.x, traveled[i][j].now.y);
+                getchar();
+                getchar();
                 break;
         }
+        for(int i = 0; i < 10; i++){
+            traveled = updateStatement(traveled);
+        }
+        state = updateState(traveled, state);
+        architecture = insertBuildind(architecture, state);
+        initFloors(architecture);
     }
 }
 
