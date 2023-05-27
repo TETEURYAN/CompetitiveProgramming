@@ -25,6 +25,7 @@ struct statement{
     struct coordinates destiny;
     bool floor;
     bool moovment;
+    bool visited;
     int number;
 }statement;
 
@@ -110,15 +111,10 @@ struct statement ** initStatement(struct statement ** traveled, int ** state){
                     traveled[i][j].number = state[i][j];
                 }
                 traveled[i][j].moovment = false;
+                traveled[i][j].visited = false;
             }
         }
     }
-
-    // for(int i = 0; i < 300; i++)
-    //     for(int j = 0; j < 3; j++)
-    //         if(traveled[i][j].floor)
-    //             printf("Coordinate x %d Coordinate y %d Number %d\n", traveled[i][j].now.x, traveled[i][j].now.y, traveled[i][j].number);
-    // getchar(); 
     return traveled;
 }
 
@@ -152,48 +148,90 @@ struct statement ** initTravel(struct statement **traveled, int **state, int fro
     return traveled;
 }
 
-struct statement **updateStatement(struct statement **traveled){
-    FILE * registered;
-    registered = fopen("register.txt", "w");
-
+struct statement **updateStatement(struct statement **traveled, FILE * registered){
 
     struct coordinates actually;
     for(int i = 0; i < 300; i++){
         for(int j = 0; j < 3; j++){
-            if(traveled[i][j].moovment){
+            if(traveled[i][j].moovment and not traveled[i][j].visited){
                 if(traveled[i][j].destiny.x != traveled[i][j].now.x){
                     if(traveled[i][j].destiny.x < traveled[i][j].now.x){
                         if(traveled[i-1][j].floor and not traveled[i][j-1].floor ){
-                            traveled[i][j].now.y--;
+                            if(j == 0)
+                                traveled[i][j].now.y++;
+                            else if( j == 2)
+                                traveled[i][j].now.y--;
+                            else if(j == 1){
+                                if(traveled[i][j+1].floor)
+                                    traveled[i][j].now.y++;
+                                else    
+                                    traveled[i][j].now.y--;  
+                            }    
                         }
                         else if(traveled[i-1][j].floor and not traveled[i][j+1].floor ){
-                            traveled[i][j].now.y++;
+                            if(j == 0){
+                                traveled[i][j].now.y++;
+                            }
+                            else if(j == 2){
+                                traveled[i][j].now.y--;
+                            }
+                            else if(j == 1){
+                                if(traveled[i][j+1].floor){
+                                    traveled[i][j].now.y--;
+                                }
+                                else  {
+                                    traveled[i][j].now.y++;     
+                                }
+                            }    
                         }
                         traveled[i][j].now.x--;
                     }
-                    else if(traveled[i][j].destiny.x > traveled[i][j].now.x) {
+                    
+                    else if(traveled[i][j].destiny.x > traveled[i][j].now.x){
                         if(traveled[i+1][j].floor and not traveled[i][j-1].floor ){
-                            traveled[i][j].now.y--;
+                            if(j == 0){
+                                traveled[i][j].now.y+=2;
+                            }
+                            else if(j == 2){
+                                traveled[i][j].now.y--;
+                            }
+                            else if(j == 1){
+                                traveled[i][j].now.y--;
+                            }  
                         }
                         else if(traveled[i+1][j].floor and not traveled[i][j+1].floor ){
-                            traveled[i][j].now.y++;
+                            if(j == 0){
+                                traveled[i][j].now.y++;
+                            }
+                            else if(j == 2){
+                                traveled[i][j].now.y--;
+
+                            }
+                            else if(j == 1){
+                                if(traveled[i][j+1].floor)
+                                    traveled[i][j].now.y--;
+                                else    
+                                    traveled[i][j].now.y++;  
+                            }
                         }
                         traveled[i][j].now.x++;
                     }
+
                     actually.x = traveled[i][j].now.x;
                     actually.y = traveled[i][j].now.y;
                     fprintf(registered, "O elevador %c se moveu de (%d, %d) para (%d, %d)\n", getSymbol(traveled[i][j].number), i, j, actually.x, actually.y);
-                        
+
                     traveled[actually.x][actually.y].number = traveled[i][j].number;
                     traveled[actually.x][actually.y].moovment = true;
                     traveled[actually.x][actually.y].now.x = actually.x;
                     traveled[actually.x][actually.y].now.y = actually.y;
                     traveled[actually.x][actually.y].floor = true;
+                    traveled[actually.x][actually.y].visited = true;
                     traveled[actually.x][actually.y].destiny = traveled[i][j].destiny;
 
                     
-                    traveled[i][j].floor = false;
                     traveled[i][j].moovment = false;
+                    traveled[i][j].floor = false;
 
 
                 }
@@ -202,7 +240,11 @@ struct statement **updateStatement(struct statement **traveled){
         }
     }
 
-    fclose(registered);
+    for(int i = 0; i < 300; i++){
+        for(int j = 0; j < 3; j++){
+            traveled[i][j].visited = false;
+        }
+    }
     return traveled;
 }
 
@@ -327,6 +369,7 @@ void initFloors(struct build * architecture){
 void menu(int **state, struct statement **traveled, struct build *architecture){
     int op, i = 0;
     struct choosen select;
+
     while(true){
         system("clear || cls");
         printf("\n\tSISTEMA DE ELEVADOR\n\n");
@@ -352,24 +395,22 @@ void menu(int **state, struct statement **traveled, struct build *architecture){
                 break;
 
             case 4:
-                for(int i = 0; i < 300; i++ ){
-                    for(int j = 0; j < 3; j++){
-                        printf("%d ", state[i][j]);
-                    }
-                    printf("\n");
-                }
-
                 for(int i = 0; i < 300; i++)
                     for(int j = 0; j < 3; j++)
                         if(traveled[i][j].floor)
-                            printf("%d %d\n", traveled[i][j].now.x, traveled[i][j].now.y);
+                            printf("%d %d %c\n", traveled[i][j].now.x, traveled[i][j].now.y, getSymbol(traveled[i][j].number));
                 getchar();
                 getchar();
                 break;
         }
+
+        FILE * registered;
+        registered = fopen("register.txt", "w");
         for(int i = 0; i < 10; i++){
-            traveled = updateStatement(traveled);
+            traveled = updateStatement(traveled, registered);
         }
+        fclose(registered);
+
         state = updateState(traveled, state);
         architecture = insertBuildind(architecture, state);
         initFloors(architecture);
