@@ -46,13 +46,13 @@ double distTwoPoint(int x1, int y1, int x2, int y2){
     return sqrt(((x2-x1)*(x2-x1))+((y2-y1)*(y2-y1)));
 }
 
-struct coordinates getDist(int x, int y, int ** state){
+struct coordinates getDist(int x, int y, struct statement ** traveled, int ** state){
     double small = INT_MAX;
     struct coordinates example;
 
     for(int i = 0; i < 300; i++){
         for(int j = 0; j < 3; j++){
-            if(state[i][j] not_eq 0){
+            if(state[i][j] not_eq 0 and not traveled[i][j].moovment){
                 if(distTwoPoint(x,y,i,j) < small){
                     small = distTwoPoint(x,y,i,j);
                     example.x = i;
@@ -120,7 +120,7 @@ struct statement ** initStatement(struct statement ** traveled, int ** state){
 
 
 struct statement ** initTravel(struct statement **traveled, int **state, int from_floor, int from_corridor, int to_floor, int to_corridor){
-    struct coordinates distance = getDist(from_floor, from_corridor, state);
+    struct coordinates distance = getDist(from_floor, from_corridor, traveled, state);
     printf("Corrdinate (%d, %d)\n", distance.x, distance.y);
     if(not traveled[from_floor][from_corridor].floor){
         traveled[from_floor][from_corridor].number = state[distance.x][distance.y];
