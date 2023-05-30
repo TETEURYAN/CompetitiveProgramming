@@ -279,7 +279,8 @@ struct choosen initSelect(struct choosen select, bool operation, bool type){
             system("clear || cls");
             printf("Digite o valor do andar de destino: ");
             scanf("%d", &select.a);
-        }while(select.a < 1 or select.a > 300);
+            select.a--;
+        }while(select.a < 0 or select.a > 299);
 
         do{
             system("clear || cls");
@@ -294,7 +295,8 @@ struct choosen initSelect(struct choosen select, bool operation, bool type){
             system("clear || cls");
             printf("Digite o valor do andar em que se encontra: ");
             scanf("%d", &select.a);
-        }while(select.a < 1 or select.a > 300);
+            select.a--;
+        }while(select.a < 0 or select.a > 299);
 
         do{
             system("clear || cls");
@@ -310,7 +312,8 @@ struct choosen initSelect(struct choosen select, bool operation, bool type){
             system("clear || cls");
             printf("Digite o valor do andar em que se encontra: ");
             scanf("%d", &select.a);
-        }while(select.a < 1 or select.a > 300);
+            select.a--;
+        }while(select.a < 0 or select.a > 299);
 
         do{
             system("clear || cls");
@@ -323,7 +326,8 @@ struct choosen initSelect(struct choosen select, bool operation, bool type){
             system("clear || cls");
             printf("Digite o valor do andar de destino: ");
             scanf("%d", &select.c);
-        }while(select.c < 1 or select.c > 300);
+            select.a--;
+        }while(select.c < 0 or select.c > 299);
 
         do{
             system("clear || cls");
