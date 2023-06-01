@@ -10,3 +10,12 @@ typedef struct tree{
 
 # K-ary Tree
 
+```C
+typedef struct kary
+{
+    int num;
+    struct kary * firstChild;
+    struct kary * nextBro;
+}kary;
+```
+
