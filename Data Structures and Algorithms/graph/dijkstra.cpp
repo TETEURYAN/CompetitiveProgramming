@@ -67,12 +67,10 @@ int main(){
         g.addEdge(u,v,cost);
     }
 
-    vector<int> distance = g.path(0);
+    vector<int> distance = g.path(1);
 
-    for(int i = 0; i < n; i++){
+    for(int i = 1; i <= n; i++){
         cout << i << ":" << distance[i] << " ";
     }
-
-    cout << endl;
 
 }
