@@ -2,9 +2,7 @@
 using namespace std;
 
 const int n = 2e3;
-
 int segtree[4*n];
-
 int arr[n];
 
 void build(int i, int left, int right, int arr[], int segtree[]) {
