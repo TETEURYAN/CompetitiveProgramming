@@ -9,4 +9,4 @@ Part of the graph algorithms were developed in CPP in another repository.
 - Minimum Spanning Tree with greedy in a graph: [Prim](https://github.com/TETEURYAN/GraphTeory/tree/main/prim)
 - Minimum Spanning Tree with Union-Find in a graph: [Kruskal](https://github.com/TETEURYAN/GraphTeory/tree/main/kruskal)
 - Maximum flow in a graph: [Ford-Fulkerson](https://github.com/TETEURYAN/GraphTeory/tree/main/fulkerson)
-- Topological Order in a graph: [Kahn](https://github.com/TETEURYAN/GraphTeory/tree/main/Kahn)
+- Topological Order in a graph: [Kanh](https://github.com/TETEURYAN/GraphTeory/tree/main/Kanh)
