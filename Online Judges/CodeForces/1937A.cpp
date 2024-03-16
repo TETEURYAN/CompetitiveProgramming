@@ -1,4 +1,12 @@
-     
+/*
+Para n>2, vamos supor que o elemento 1 esteja no índice a e será trocado pelo índice k. Então, a deve ser k/2. Provaremos isso por contradição. Suponhamos que não exista divisor maior que a e que a seja menor que k/2.
+Mas então, como a é um múltiplo de 2 na condição base, k deve ser um múltiplo de 2 e k/2 é um divisor de k. Isso contradiz a suposição. Por indução podemos ver que a é sempre múltiplo de 2, e esta prova será sempre válida. 
+O elemento 1 se moverá somente quando k/2=a.
+
+Portanto, podemos encontrar o maior valor de v
+tal que 2v≤n. A resposta acabou sendo 2v.
+*/
+
     #include <bits/stdc++.h>
     #include <ext/pb_ds/assoc_container.hpp>
     #include <ext/pb_ds/tree_policy.hpp>
