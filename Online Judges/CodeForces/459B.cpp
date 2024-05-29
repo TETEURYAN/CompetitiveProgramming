@@ -4,10 +4,6 @@
      
     using namespace std;
     const int N1 = (int)2e5 + 100;
-    #define DEBUG false
-    #define db(x)  \
-        if (DEBUG) \
-        cout << #x << ": " << x << endl
     #define PI 3.14159265358979323846264338327
     #define forn for(int i=0;i<n;i++)
     #define forj for(int j=0;j<n;j++)
@@ -75,13 +71,11 @@
         {
             t1 += (arr[i] == mn);
             t2 += (arr[i] == mx);
-            // cout << t1 << " " << t2 << nl    
         }
+        
         cout << mx - mn << " ";
-        if (mn == mx)
-            cout << n * (n - 1) / 2;
-        else
-            cout << t1 * t2;
+        if (mn == mx) cout << n * (n - 1) / 2;
+        else cout << t1 * t2;
         return 0;
      
     }
