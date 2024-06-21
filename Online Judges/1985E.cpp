@@ -1,8 +1,7 @@
 
 
     #include <bits/stdc++.h>
-    using namespace std;
-     
+    using namespace std; 
     #define pb push_back
     using vi = vector<int>;
     using ll = long long;
