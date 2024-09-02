@@ -48,7 +48,8 @@
     #define N 10000005
     #define lli unsigned long long int
     #define ll long long
-     
+
+
     bool isPrime(ll n)
     {
         if (n <= 1)
