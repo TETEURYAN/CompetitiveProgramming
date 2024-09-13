@@ -13,7 +13,6 @@ using vii = vector<ii>;
 using vll = vector<ll>;
 using lolo = pair<ll, ll>;
  
- 
 const string ENDL = "\n";
  
 const int MAXN = 1e2, MAXM = 1e2;
