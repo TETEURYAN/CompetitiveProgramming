@@ -3,7 +3,7 @@
 using namespace std;
  
 #define forn(i, n) for (int i = 0; i < n; i++)
- 
+
 using ll = long long;
 using f64 = double;
 using ii = pair<int, int>;
