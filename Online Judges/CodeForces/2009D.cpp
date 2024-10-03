@@ -5,6 +5,7 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 
+
 void SOL()
 {   
     int n;
