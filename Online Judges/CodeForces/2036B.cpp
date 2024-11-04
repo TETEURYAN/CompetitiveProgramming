@@ -6,11 +6,11 @@
  
 using namespace std;
  
-typedef long long ll;         // Define a name for long long ll
-typedef vector<ll> vi;        // Define vi as vector<ll>
-typedef vector<vi> vvi;       // Define vvi as vector of vector<ll>
-typedef pair<ll, ll> pii;     // Define pii as pair<ll, ll>
-typedef map<ll, ll> mii;      // Define mii as map<ll, ll>
+typedef long long ll;         
+typedef vector<ll> vi;        
+typedef vector<vi> vvi;       
+typedef pair<ll, ll> pii;     
+typedef map<ll, ll> mii;      
  
 void solve(){
     ll shelves, brand;
