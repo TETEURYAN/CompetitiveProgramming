@@ -208,7 +208,8 @@ void dfs(vvi gr, vb & visited, ll u){
 void solve(){
     ll n,d;
     cin >> n >> d;
-    // cout << "value of n an d: " << n << " " << d << nl
+
+ 
     ordered_set arr;
     arr.insert(1);
 
