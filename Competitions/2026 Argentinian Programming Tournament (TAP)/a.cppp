@@ -1,0 +1,13 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int H, M, S;
+    cin >> H >> M >> S;
+    long long total = (long long)H*3600 + M*60 + S;
+    long long half = 5LL*3600/2;
+    if (total < half) cout << "-" << endl;
+    else if (total > half) cout << "+" << endl;
+    else cout << "=" << endl;
+    return 0;
+}
